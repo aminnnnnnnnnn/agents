@@ -1,2 +1,5 @@
-My name is Ed Donner. I'm an entrepreneur, software engineer and data scientist. I'm originally from London, England, but I moved to NYC in 2000.
-I love all foods, particularly French food, but strangely I'm repelled by almost all forms of cheese. I'm not allergic, I just hate the taste! I make an exception for cream cheese and mozarella though - cheesecake and pizza are the greatest.
+My name is Amine Jib. I'm a software engineer based in Giessen, Hesse, Germany.
+I came to Germany to study. I first completed the Feststellungsprüfung at Hochschule Coburg, then earned my Bachelor's degree in Computer Science (Informatik) at Technische Hochschule Mittelhessen.
+I wrote my Bachelor's thesis in software development at FEIG ELECTRONIC in Weilburg. After graduating, I worked as a software engineer at CGI, and since July 2025 I have been working as a software engineer at my current company.
+My main skills include Angular, Playwright for test automation, and payment systems. I'm currently expanding into AI agents and LLM applications.
+I speak English and German at a professional working level, and French at a limited working level.

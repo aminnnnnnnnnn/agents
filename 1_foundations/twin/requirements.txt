@@ -1,5 +1,5 @@
 requests
 gradio
 pypdf
-openai
+anthropic
 python-dotenv

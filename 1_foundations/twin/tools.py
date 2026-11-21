@@ -35,7 +35,7 @@ def record_unknown_question(question):
 record_user_details_json = {
     "name": "record_user_details",
     "description": "Use this tool to record that a user is interested in being in touch and provided an email address",
-    "parameters": {
+    "input_schema": {
         "type": "object",
         "properties": {
             "email": {"type": "string", "description": "The email address of this user"},
@@ -53,7 +53,7 @@ record_user_details_json = {
 record_unknown_question_json = {
     "name": "record_unknown_question",
     "description": "Always use this tool to record any question that couldn't be answered as you didn't know the answer",
-    "parameters": {
+    "input_schema": {
         "type": "object",
         "properties": {
             "question": {"type": "string", "description": "The question that couldn't be answered"},
@@ -63,10 +63,8 @@ record_unknown_question_json = {
     },
 }
 
-tools = [
-    {"type": "function", "function": record_user_details_json},
-    {"type": "function", "function": record_unknown_question_json},
-]
+# Claude takes the tool descriptions directly, with no extra wrapper
+tools = [record_user_details_json, record_unknown_question_json]
 
 tool_map = {
     "record_user_details": record_user_details,
@@ -77,12 +75,13 @@ tool_map = {
 def handle_tool_calls(tool_calls):
     results = []
     for tool_call in tool_calls:
-        tool_name = tool_call.function.name
-        arguments = json.loads(tool_call.function.arguments)
+        # Each tool call is a Claude "tool_use" block: .name is the tool, .input is a dict of arguments
+        tool_name = tool_call.name
+        arguments = tool_call.input
         print(f"Tool called: {tool_name}", flush=True)
         tool = tool_map.get(tool_name)
         result = tool(**arguments) if tool else "Unknown tool: " + tool_name
         results.append(
-            {"role": "tool", "content": json.dumps(result), "tool_call_id": tool_call.id}
+            {"type": "tool_result", "tool_use_id": tool_call.id, "content": json.dumps(result)}
         )
     return results
