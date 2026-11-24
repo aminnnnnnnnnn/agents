@@ -1,10 +1,15 @@
 from pydantic import BaseModel, Field
-from agents import Agent
+from agents import Agent, OpenAIChatCompletionsModel
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv(override=True)
-MODEL_NAME = os.getenv("DEFAULT_MODEL_NAME", "gpt-5.4-mini")
+# Use Claude as the model, through Anthropic's OpenAI-compatible endpoint.
+# claude-haiku-5-5 is the cheap default; set DEFAULT_MODEL_NAME in .env to use another Claude model.
+CLAUDE_MODEL = os.getenv("DEFAULT_MODEL_NAME", "claude-haiku-5-5")
+claude_client = AsyncOpenAI(base_url="https://api.anthropic.com/v1/", api_key=os.getenv("ANTHROPIC_API_KEY"))
+MODEL_NAME = OpenAIChatCompletionsModel(model=CLAUDE_MODEL, openai_client=claude_client)
 
 INSTRUCTIONS = """
 You are a senior researcher tasked with writing a cohesive report for a research query.

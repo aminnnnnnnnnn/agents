@@ -1,10 +1,15 @@
-from agents import Agent, function_tool, ModelSettings
+from agents import Agent, function_tool, ModelSettings, OpenAIChatCompletionsModel
+from openai import AsyncOpenAI
 from messenger import send_email, push
 import os
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
-MODEL_NAME = os.getenv("DEFAULT_MODEL_NAME", "gpt-5.4-mini")
+# Use Claude as the model, through Anthropic's OpenAI-compatible endpoint.
+# claude-haiku-5-5 accepts tool_choice="required", which this agent needs (claude-opus-5-5 rejects it).
+CLAUDE_MODEL = os.getenv("DEFAULT_MODEL_NAME", "claude-haiku-5-5")
+claude_client = AsyncOpenAI(base_url="https://api.anthropic.com/v1/", api_key=os.getenv("ANTHROPIC_API_KEY"))
+MODEL_NAME = OpenAIChatCompletionsModel(model=CLAUDE_MODEL, openai_client=claude_client)
 USE_EMAIL = os.getenv("USE_EMAIL", "true").lower() == "true"
 
 settings = ModelSettings(tool_choice="required")
